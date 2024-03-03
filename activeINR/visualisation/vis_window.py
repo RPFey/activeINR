@@ -960,7 +960,11 @@ class VisWindow:
             self.gt_mesh.transform(T_rot)
 
         env = self.data_source.sim
+        # env.reset()
+
+        episode = self.data_source.scene_data['episodes'][0]
         env.reset()
+        env.set_agent_state(episode["start_position"], episode["start_rotation"])
 
         # set 2D vis grid
         self.get_topdown_dimension(env)
@@ -1032,7 +1036,7 @@ class VisWindow:
                     rec_mesh = self.latest_mesh
                     rec_mesh_status = True
                 # Frontier extraction
-                if (self.step%50 == 0):
+                if (self.step % 50 == 0):
                     df, color = self.explorer.vis_prediction_error( \
                             self.trainer, input_mesh=self.gt_mesh)
                     write_mean = np.mean(df)
@@ -1201,6 +1205,14 @@ class VisWindow:
 
             log_info += 'Action: {}\n'.format(action_space[act])
             self.log_info.text = log_info
+
+            curr_pose = env.get_agent_state()
+            pose_position = curr_pose.position
+            pose_rotation = curr_pose.rotation
+            output = "{:.8f},{:.8f},{:.8f},{:.8f},{:.8f},{:.8f},{:.8f}\n".format(
+                pose_position[0], pose_position[1], pose_position[2], pose_rotation.w, pose_rotation.x, pose_rotation.y, pose_rotation.z)
+            with open(output_dir + "/pose_seq.txt", "a") as f:
+                f.write(output)
 
             if self.step == self.trainer.n_steps:
                 print("Finished!")

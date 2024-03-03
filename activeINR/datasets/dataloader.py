@@ -84,7 +84,7 @@ class HabitatDataScene(Dataset):
         cfg.defrost()
         assert options.dataset_format in ["mp3d", "gibson", "replica"]
         if options.dataset_format == "mp3d":
-            cfg.SIMULATOR.SCENE = options.root + options.test_set + "/tasks/" + scene_id + '/' + scene_id + '.glb'
+            cfg.SIMULATOR.SCENE = options.root + "habitat-api/data/scene_datasets/mp3d/" + scene_id + '/' + scene_id + '.glb'
         elif options.dataset_format == "gibson":
             cfg.SIMULATOR.SCENE = options.root + scene_id + '.glb'
         elif options.dataset_format == "replica":
@@ -128,6 +128,20 @@ class HabitatDataScene(Dataset):
             self.existing_episode_list = [ int(x.split('_')[2]) for x in existing_episode_list ]
         else:
             self.existing_episode_list=[]
+
+        # import pdb; pdb.set_trace()
+        ep_file_path = "/root/mp3d/habitat-api/data/datasets/pointnav/mp3d/v1/val/val.json.gz"
+        with gzip.open(ep_file_path, "rt") as fp:
+            self.data = json.load(fp)
+
+        # Need to keep only episodes that belong to current scene
+        self.scene_data = {'episodes': []}
+        for i in range(len(self.data['episodes'])):
+            sc_path = self.data['episodes'][i]['scene_id']
+            sc_id = sc_path.split('/')[-1].split('.')[0]
+            if sc_id == self.scene_id:
+                self.scene_data['episodes'].append(self.data['episodes'][i])
+        self.number_of_episodes = len(self.scene_data["episodes"])
 
     def __len__(self):
         return len(self.scene_data["episodes"])
