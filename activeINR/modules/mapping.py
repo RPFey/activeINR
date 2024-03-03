@@ -54,10 +54,12 @@ def end_timing(start, end):
     return elapsed_time
 
 def mapper(trainer, t, iter, obs=None):
+    """ Depth in range [0, 10], Color [0 - 255] """
     # get/add data---------------------------------------------------------
     new_kf = None
     end = False
     finish_optim = trainer.steps_since_frame == trainer.optim_frames
+    # import pdb; pdb.set_trace()
     if obs is not None:  # and (finish_optim or t == 0):
         if t == 0:
             add_new_frame = True
@@ -239,11 +241,11 @@ class Trainer():
             if self.dataset_format == "replica":
                 self.scene_file = root + scene_list + "/mesh.ply"
             elif self.dataset_format == "mp3d":
-                self.scene_file = root + "/v1/tasks/" + scene_list + '/' + scene_list + '_semantic.ply'
+                self.scene_file = root + "/habitat-api/data/scene_datasets/mp3d/" + scene_list + '/' + scene_list + '_semantic.ply'
             elif self.dataset_format == "gibson":
                 self.scene_file = root + scene_list + ".glb"
                 #self.scene_file = root + "../../gibson_v2_selected/" + scene_list + '/' + scene_list + '_mesh.ply'
-        #print(self.gt_scene)
+        print(self.scene_file)
 
         self.fps = 30  # this can be set to anything when in live mode
         self.obj_bounds_file = None
@@ -467,7 +469,7 @@ class Trainer():
         depth_np = sample["depth"][None, ...]
         T_np = sample["T"][None, ...]
 
-        #im = torch.from_numpy(im_np).float().to(self.device) / 255.
+        # im = torch.from_numpy(im_np).float().to(self.device) / 255.
         depth = torch.from_numpy(depth_np).float().to(self.device)
         T = torch.from_numpy(T_np).float().to(self.device)
 

@@ -62,7 +62,7 @@ We adopt the [DDPPO](https://wijmans.xyz/publication/ddppo-2019/) for point-goal
 To run Active Neural Mapping on the `Denmark` scene of Gibson dataset, run the following command.
 
 ```python
-python activeINR/train/vis_exploration.py --config activeINR/train/configs/gibson.json --scene_id Denmark
+python activeINR/train/vis_exploration.py --config activeINR/train/configs/mp3d_big.json --scene_id 2azQ1b91cZZ
 ```
 
 The logs will be saved in the `./activeINR/train/logs/` folder with actions, mesh file, checkpoints of the neural map, etc.
@@ -70,7 +70,7 @@ The logs will be saved in the `./activeINR/train/logs/` folder with actions, mes
 The mesh quality and the exploration coverage can be evaluated through the following manuscript:
 
 ```python
-python activeINR/eval/eval_action.py --config activeINR/train/configs/gibson.json --scene_id Denmark --file "logs/final/gibson/Denmark/results/action.txt"
+python activeINR/eval/eval_action.py --config activeINR/train/configs/mp3d_big.json --scene_id 2azQ1b91cZZ
 
 python eval/eval_mesh.py
 ```
