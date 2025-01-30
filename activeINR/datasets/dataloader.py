@@ -130,7 +130,7 @@ class HabitatDataScene(Dataset):
             self.existing_episode_list=[]
 
         # import pdb; pdb.set_trace()
-        ep_file_path = "/root/mp3d/habitat-api/data/datasets/pointnav/mp3d/v1/val/val.json.gz"
+        ep_file_path = "/data/habitat-api/data/datasets/pointnav/mp3d/v1/val/val.json.gz"
         with gzip.open(ep_file_path, "rt") as fp:
             self.data = json.load(fp)
 

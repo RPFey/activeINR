@@ -1,7 +1,7 @@
 {
     "dataset": {
         "format": "mp3d",
-        "scenes_list": "zsNo4HB9uLZ",
+        "scenes_list": "GdvgFV5R1Z5",
         "gt_sdf_dir": "",
         "noisy_depth": 0,
         "depth_scale": 1,
@@ -9,7 +9,7 @@
         "width": 256,
         "height": 256,
         "hfov": 90,
-        "root": "/hdd/matterport/",
+        "root": "/data/",
         "config": "configs/my_pointnav_mp3d_test.yaml",
         "noisy_config": "configs/my_pointnav_mp3d_test_noisy.yaml"
     },
@@ -25,10 +25,10 @@
         "weight_decay": 0.012
     },
     "trainer": {
-        "steps": 1000
+        "steps": 2000
     },
     "planner": {
-        "model_dir": "activeINR//local_policy_models/",
+        "model_dir": "/root/activeINR/local_policy_models/",
         "file_name": "gibson-2plus-resnet50.pth"
     },
     "sample": {

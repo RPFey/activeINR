@@ -962,9 +962,9 @@ class VisWindow:
         env = self.data_source.sim
         # env.reset()
 
-        episode = self.data_source.scene_data['episodes'][0]
+        # episode = self.data_source.scene_data['episodes'][0]
         env.reset()
-        env.set_agent_state(episode["start_position"], episode["start_rotation"])
+        # env.set_agent_state(episode["start_position"], episode["start_rotation"])
 
         # set 2D vis grid
         self.get_topdown_dimension(env)
@@ -999,9 +999,13 @@ class VisWindow:
                 # training steps ------------------------------
                 sim_obs = env.get_sensor_observations()
                 data_source = env._sensor_suite.get_observations(sim_obs)
+                data_source = {"rgb": torch.from_numpy(data_source["rgb"]).cuda(), "depth": torch.from_numpy(data_source["depth"]).cuda()}
                 curr_pose = env.get_agent_state()
                 pose_position = curr_pose.position
                 pose_rotation = curr_pose.rotation
+
+                if self.step > 100:
+                    self.is_done = True
 
                 if self.step > 600:#600:#1100:
                     self.crop_box.checked = False
@@ -1009,6 +1013,7 @@ class VisWindow:
                     self.voxel_dim_slider.int_value = 160
                 if self.step > 950:#950:#1980:
                     self.gt_mesh_box.checked = True
+                
 
                 self.trainer.frame_id = self.step
                 image = data_source['rgb'][:, :, :3].detach().cpu().numpy()
